@@ -20,12 +20,15 @@
 #define WIDTH 4
 #define HEIGHT 4
 
+
 void print_board(char board[HEIGHT][WIDTH]);
+void print_message(char winner);
 bool move_inbounds(char* move);
 char assign_cpu(char player);
 bool space_available(char board[HEIGHT][WIDTH], char* move);
 void make_move(char board[HEIGHT][WIDTH], char* move, char* turn, int* num_turns);
-
+int decide_winner(char winner, char player);
+int evaluate_position(char board[HEIGHT][WIDTH], char player);
 
 #ifdef __cplusplus
 extern "C" {

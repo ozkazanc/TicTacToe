@@ -26,24 +26,32 @@ int main(int argc, char** argv) {
                                  'b',' ',' ',' ', 
                                  'c',' ',' ',' '};
     char player;
-    char cpu;
-    char turn = 'x';
-    char move[MAX_STRING_LEN];
-    
+    char cpu;    
+    char turn = 'x';    //x always moves first        
+    char move[MAX_STRING_LEN];   
+
+    int winner = 0;
     int num_turns = 9;
+
     printf("Choose side x or o: ");
     scanf("%c",&player);
-    
+
     cpu = assign_cpu(player);
-    int i = 0;
-    while(num_turns != 0){
-        print_board(board);
+
+    while(num_turns != 0 && winner == 0){
+        print_board(board);           
+
         printf("Make a move: ");
         scanf("%s",move);
-        
+
         make_move(board,move,&turn,&num_turns);
+
+        winner = evaluate_position(board,player);
     }
     print_board(board);
+    print_message(winner);
+
+    //printf("Thanks for playing!\n");
     return (EXIT_SUCCESS);
 }
 
