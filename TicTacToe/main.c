@@ -16,6 +16,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "helper_functions.h"
+#include "cpu.h"
 
 #define WIDTH 4
 #define HEIGHT 4
@@ -25,6 +26,7 @@ int main(int argc, char** argv) {
                                  'a',' ',' ',' ',
                                  'b',' ',' ',' ', 
                                  'c',' ',' ',' '};
+    char current_position[HEIGHT][WIDTH];
     char player;
     char cpu;    
     char turn = 'x';    //x always moves first        
@@ -38,15 +40,23 @@ int main(int argc, char** argv) {
 
     cpu = assign_cpu(player);
 
-    while(num_turns != 0 && winner == 0){
-        print_board(board);           
+    while(num_turns != 0 && winner == 0){                 
+        if(turn == player){
+            print_board(board); 
+            printf("Make a move: ");
+            scanf("%s",move);
 
-        printf("Make a move: ");
-        scanf("%s",move);
+            if(!make_move(board,move,turn)) continue;
+        }
+        else {
+            copy_position(current_position, board);
+            minimax(current_position, move, num_turns, cpu, player, -100, 100, 0, true);
+            if(!make_move(board,move,turn)) continue;
+        }
 
-        make_move(board,move,&turn,&num_turns);
-
+        turn = assign_cpu(turn);
         winner = evaluate_position(board,player);
+        num_turns--;
     }
     print_board(board);
     print_message(winner);

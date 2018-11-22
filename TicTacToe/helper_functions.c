@@ -35,12 +35,10 @@ bool space_available(char board[HEIGHT][WIDTH], char* move){
     else printf("Cannot move there, spot already taken\n");
     return false;
 }
-void make_move(char board[HEIGHT][WIDTH], char* move, char* turn, int* num_turns){
-    if(!(move_inbounds(move) && space_available(board,move))) return;
-    board[move[0] - 'a' + 1][move[1] - 'a' + 1] = *turn;
-    *turn = assign_cpu(*turn);
-    (*num_turns)--;
-    return;
+int make_move(char board[HEIGHT][WIDTH], char* move, char turn){
+    if(!(move_inbounds(move) && space_available(board,move))) return 0;
+    board[move[0] - 'a' + 1][move[1] - 'a' + 1] = turn;    
+    return 1;
 }
 //Switches the x to an o and vice-versa
 char assign_cpu(char player){
